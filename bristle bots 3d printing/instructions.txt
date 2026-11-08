@@ -1,1 +1,4 @@
-idk what anymore just use build123d
+1. figure out Aruco tags and basic video tracking
+2. figure out the shape and ideas behind the bristle bot
+3. build a maze out of hard foam
+4. create a computer simulation
