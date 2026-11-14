@@ -1,0 +1,4 @@
+﻿exports/* linguist-vendored
+*.step linguist-vendored
+*.stl linguist-vendored
+*.3mf linguist-vendored
