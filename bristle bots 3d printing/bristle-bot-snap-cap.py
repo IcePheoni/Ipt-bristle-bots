@@ -37,7 +37,7 @@ CONTACT_BOSS_R      = 3.2
 # --- Chassis & Tripod Legs ---
 CORE_RADIUS         = 15.0   
 CORE_HEIGHT         = 4.5    
-LEG_RADIUS          = 1.0    
+LEG_RADIUS          = 0.85    
 LEG_ROOT_RADIUS     = 1.25
 LEG_TIP_RADIUS      = 1.0
 LEG_LENGTH          = 9.0    
