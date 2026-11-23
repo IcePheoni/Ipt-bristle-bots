@@ -5,7 +5,7 @@ from build123d import *
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 EXPORT_DIR = os.path.join(SCRIPT_DIR, "exports")
 os.makedirs(EXPORT_DIR, exist_ok=True)
-MODEL_VERSION = "v11"
+MODEL_VERSION = "v12"
 
 # ================= PARAMETERS (SNAP-FIT MEMBRANE V10) =================
 BATTERY_DIAM        = 20.0   
@@ -30,7 +30,7 @@ MEMBRANE_THICKNESS  = 0.2    # Leaves a 0.2mm solid skin over the hole for perfe
 TOWER_WALL          = 1.6    
 TOWER_OUTER_R       = BATTERY_R + TOWER_WALL                      # 12.35 mm
 TOWER_HEIGHT        = BATTERY_D + 0.4                             # 3.60 mm
-LIP_RADIUS          = TOWER_OUTER_R + 0.25                        # 12.60 mm
+LIP_RADIUS          = TOWER_OUTER_R + 0.35                        # Slightly stronger snap retaining lip
 CAP_CLEARANCE       = 0.2   
 CAP_WALL            = 1.4    
 CAP_ROOF_THICK      = 1.2
