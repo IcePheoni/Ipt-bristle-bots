@@ -2,7 +2,10 @@ import os
 import math
 from build123d import *
 
-os.makedirs("exports", exist_ok=True)
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+EXPORT_DIR = os.path.join(SCRIPT_DIR, "exports")
+os.makedirs(EXPORT_DIR, exist_ok=True)
+MODEL_VERSION = "v11"
 
 # ================= PARAMETERS (SNAP-FIT MEMBRANE V10) =================
 BATTERY_DIAM        = 20.0   
@@ -39,7 +42,7 @@ CORE_RADIUS         = 15.0
 CORE_HEIGHT         = 4.5    
 LEG_RADIUS          = 0.85    
 LEG_ROOT_RADIUS     = 1.25
-LEG_TIP_RADIUS      = 1.0
+LEG_TIP_RADIUS      = 0.85
 LEG_LENGTH          = 9.0    
 LEG_ANGLE           = 15.0   
 LEG_PITCH_R         = 13.5   
@@ -102,6 +105,6 @@ with BuildPart() as battery_cap:
     with Locations((0, 0, TOWER_HEIGHT)):
         Cylinder(radius=CONTACT_BOSS_R, height=CONTACT_BOSS_H, align=(Align.CENTER, Align.CENTER, Align.MAX))
 
-export_stl(core.part, "exports/core_tripod_snap.stl")
-export_stl(battery_cap.part, "exports/battery_cap_snap.stl")
-print("Success! Snap-Fit Core with Membrane V10 saved.")
+export_stl(core.part, os.path.join(EXPORT_DIR, f"core_tripod_snap_{MODEL_VERSION}.stl"))
+export_stl(battery_cap.part, os.path.join(EXPORT_DIR, f"battery_cap_snap_{MODEL_VERSION}.stl"))
+print(f"Success! Snap-Fit Core with Membrane {MODEL_VERSION} saved.")
