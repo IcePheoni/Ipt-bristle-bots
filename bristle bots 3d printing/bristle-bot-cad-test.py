@@ -11,7 +11,9 @@ CORE_RADIUS        = 10.0   # 20 mm base diameter
 CORE_HEIGHT        = 6.0    # Deck height in mm
 
 # --- Tripod Leg Mechanics ---
-LEG_RADIUS         = 0.75   # 1.5 mm diameter peg (stiff elastic beam)
+LEG_RADIUS         = 1.0    # 2.0 mm diameter through the leg
+LEG_ROOT_RADIUS    = 1.25   # Wider at the core joint to reduce stress concentration
+LEG_TIP_RADIUS     = 1.0    # Full 2.0 mm tip diameter
 LEG_LENGTH         = 7.0    # Exposed leg length beneath core (mm)
 LEG_ANGLE          = 15.0   # Slant angle in degrees from vertical
 LEG_PITCH_R        = 7.5    # Radial distance of legs from chassis center
@@ -68,8 +70,9 @@ with BuildPart() as core:
         x = LEG_PITCH_R * math.cos(rad)
         y = LEG_PITCH_R * math.sin(rad)
         with Locations(Location((x, y, -CORE_HEIGHT / 2 + LEG_EMBED), (0, LEG_ANGLE, angle))):
-            Cylinder(
-                radius=LEG_RADIUS,
+            Cone(
+                bottom_radius=LEG_TIP_RADIUS,
+                top_radius=LEG_ROOT_RADIUS,
                 height=LEG_LENGTH + LEG_EMBED,
                 align=(Align.CENTER, Align.CENTER, Align.MAX)
             )

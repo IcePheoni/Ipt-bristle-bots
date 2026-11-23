@@ -28,7 +28,7 @@ TOWER_WALL          = 1.6
 TOWER_OUTER_R       = BATTERY_R + TOWER_WALL                      # 12.35 mm
 TOWER_HEIGHT        = BATTERY_D + 0.4                             # 3.60 mm
 LIP_RADIUS          = TOWER_OUTER_R + 0.25                        # 12.60 mm
-CAP_CLEARANCE       = 0.30   
+CAP_CLEARANCE       = 0.2   
 CAP_WALL            = 1.4    
 CAP_ROOF_THICK      = 1.2
 CONTACT_BOSS_H      = 0.35   
@@ -37,7 +37,9 @@ CONTACT_BOSS_R      = 3.2
 # --- Chassis & Tripod Legs ---
 CORE_RADIUS         = 15.0   
 CORE_HEIGHT         = 4.5    
-LEG_RADIUS          = 0.75   
+LEG_RADIUS          = 1.0    
+LEG_ROOT_RADIUS     = 1.25
+LEG_TIP_RADIUS      = 1.0
 LEG_LENGTH          = 9.0    
 LEG_ANGLE           = 15.0   
 LEG_PITCH_R         = 13.5   
@@ -68,7 +70,12 @@ with BuildPart() as core:
         x = LEG_PITCH_R * math.cos(rad)
         y = LEG_PITCH_R * math.sin(rad)
         with Locations(Location((x, y, -CORE_HEIGHT / 2 + LEG_EMBED), (0, LEG_ANGLE, angle))):
-            Cylinder(radius=LEG_RADIUS, height=LEG_LENGTH + LEG_EMBED, align=(Align.CENTER, Align.CENTER, Align.MAX))
+            Cone(
+                bottom_radius=LEG_TIP_RADIUS,
+                top_radius=LEG_ROOT_RADIUS,
+                height=LEG_LENGTH + LEG_EMBED,
+                align=(Align.CENTER, Align.CENTER, Align.MAX)
+            )
 
     # Snap-lock battery tower on top deck
     with Locations((0, 0, CORE_HEIGHT / 2)):
