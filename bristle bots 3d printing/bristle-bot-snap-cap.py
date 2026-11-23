@@ -69,7 +69,7 @@ with BuildPart() as core:
         rad = math.radians(angle)
         x = LEG_PITCH_R * math.cos(rad)
         y = LEG_PITCH_R * math.sin(rad)
-        with Locations(Location((x, y, -CORE_HEIGHT / 2 + LEG_EMBED), (0, LEG_ANGLE, angle))):
+        with Locations(Location((x, y, -CORE_HEIGHT / 2 + LEG_EMBED), (0, LEG_ANGLE, 0))):
             Cone(
                 bottom_radius=LEG_TIP_RADIUS,
                 top_radius=LEG_ROOT_RADIUS,
