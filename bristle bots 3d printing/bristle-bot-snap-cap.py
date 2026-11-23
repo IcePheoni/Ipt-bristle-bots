@@ -5,7 +5,7 @@ from build123d import *
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 EXPORT_DIR = os.path.join(SCRIPT_DIR, "exports")
 os.makedirs(EXPORT_DIR, exist_ok=True)
-MODEL_VERSION = "v13"
+MODEL_VERSION = "v14"
 
 # ================= PARAMETERS (SNAP-FIT MEMBRANE V10) =================
 BATTERY_DIAM        = 20.0   
@@ -83,12 +83,13 @@ with BuildPart() as core:
                 lower_radius = LEG_TIP_RADIUS + (LEG_ROOT_RADIUS - LEG_TIP_RADIUS) * ((1.0 - lower_fraction) ** LEG_CURVE)
                 upper_radius = LEG_TIP_RADIUS + (LEG_ROOT_RADIUS - LEG_TIP_RADIUS) * ((1.0 - upper_fraction) ** LEG_CURVE)
 
-                with Locations((0, 0, lower_fraction * total_height)):
+                segment_center_z = -((lower_fraction + upper_fraction) / 2.0) * total_height
+                with Locations((0, 0, segment_center_z)):
                     Cone(
                         bottom_radius=upper_radius,
                         top_radius=lower_radius,
                         height=step_height,
-                        align=(Align.CENTER, Align.CENTER, Align.MIN)
+                        align=(Align.CENTER, Align.CENTER, Align.CENTER)
                     )
 
     # Snap-lock battery tower on top deck
