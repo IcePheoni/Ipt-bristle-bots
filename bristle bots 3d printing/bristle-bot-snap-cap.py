@@ -5,7 +5,7 @@ from build123d import *
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 EXPORT_DIR = os.path.join(SCRIPT_DIR, "exports")
 os.makedirs(EXPORT_DIR, exist_ok=True)
-MODEL_VERSION = "v12"
+MODEL_VERSION = "v13"
 
 # ================= PARAMETERS (SNAP-FIT MEMBRANE V10) =================
 BATTERY_DIAM        = 20.0   
@@ -41,8 +41,10 @@ CONTACT_BOSS_R      = 3.2
 CORE_RADIUS         = 15.0   
 CORE_HEIGHT         = 4.5    
 LEG_RADIUS          = 0.85    
-LEG_ROOT_RADIUS     = 1.25
-LEG_TIP_RADIUS      = 0.85
+LEG_ROOT_RADIUS     = 1.0
+LEG_TIP_RADIUS      = 0.5
+LEG_CURVE           = 2.5
+LEG_PROFILE_STEPS   = 12
 LEG_LENGTH          = 9.0    
 LEG_ANGLE           = 15.0   
 LEG_PITCH_R         = 13.5   
@@ -73,12 +75,21 @@ with BuildPart() as core:
         x = LEG_PITCH_R * math.cos(rad)
         y = LEG_PITCH_R * math.sin(rad)
         with Locations(Location((x, y, -CORE_HEIGHT / 2 + LEG_EMBED), (0, LEG_ANGLE, 0))):
-            Cone(
-                bottom_radius=LEG_TIP_RADIUS,
-                top_radius=LEG_ROOT_RADIUS,
-                height=LEG_LENGTH + LEG_EMBED,
-                align=(Align.CENTER, Align.CENTER, Align.MAX)
-            )
+            total_height = LEG_LENGTH + LEG_EMBED
+            step_height = total_height / LEG_PROFILE_STEPS
+            for step in range(LEG_PROFILE_STEPS):
+                lower_fraction = step / LEG_PROFILE_STEPS
+                upper_fraction = (step + 1) / LEG_PROFILE_STEPS
+                lower_radius = LEG_TIP_RADIUS + (LEG_ROOT_RADIUS - LEG_TIP_RADIUS) * ((1.0 - lower_fraction) ** LEG_CURVE)
+                upper_radius = LEG_TIP_RADIUS + (LEG_ROOT_RADIUS - LEG_TIP_RADIUS) * ((1.0 - upper_fraction) ** LEG_CURVE)
+
+                with Locations((0, 0, lower_fraction * total_height)):
+                    Cone(
+                        bottom_radius=upper_radius,
+                        top_radius=lower_radius,
+                        height=step_height,
+                        align=(Align.CENTER, Align.CENTER, Align.MIN)
+                    )
 
     # Snap-lock battery tower on top deck
     with Locations((0, 0, CORE_HEIGHT / 2)):
